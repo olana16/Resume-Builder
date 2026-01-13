@@ -1,6 +1,7 @@
 import { BookAlertIcon } from 'lucide-react'
 import React from 'react'
 import Title from './Title'
+import './Testimonials.css'
 
 
 const Testimonials = () => {
