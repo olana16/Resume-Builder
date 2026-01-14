@@ -1,7 +1,21 @@
-import { PlugIcon, PlusIcon, UploadCloudIcon } from 'lucide-react';
-import React from 'react'
+import { FilePenLineIcon, PlugIcon, PlusIcon, UploadCloudIcon } from 'lucide-react';
+import React, { use, useEffect } from 'react'
+import { dummyResumeData } from '../assets/assets'
+
 
 const Dashboard = () => {
+
+    const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "16a34a"]
+
+    const [allResumes, setAllResumes] = useState([])
+
+    const loadAllResumes = async () => {
+        setAllResumes(dummyResumeData)
+    }
+
+    useEffect(() => {
+        loadAllResumes()
+    }, [])
 
     return (
         <div>
@@ -27,6 +41,27 @@ const Dashboard = () => {
                 </div>
 
                 <hr className='border-slate-300 my-6 sm:w-[305px]' />
+
+                <div className='grid grid-cols-2 sm:flex flex-wrap gap-4'>
+                    {allResumes.map((resume, index) => {
+                        const baseColors = colors[index % colors.length];
+                        return (
+
+                            <button key={index} className='relative w-full sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 border group hover:shadow-lg
+                 transition-all duration-300 cursor-pointer' style={{
+                                    background: `linergradient(135deg, 
+                 ${baseColors}10, ${baseColors}10)`, borderColor: baseColors + '40'
+                                }}>
+                                <FilePenLineIcon className='size-7 group-hover:scale-105 transition-all' style={{ color: baseColors }} />
+                                <p className='text-sm group-hover:scale-105 transition-all 
+                                px-2 text-center' style={{color:baseColors}}>{resume.title}</p>
+
+                                <p>Update on {new Date().toLocaleDateString()}</p>
+                            </button>
+                        )
+
+                    })}
+                </div>
             </div>
 
         </div>
