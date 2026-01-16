@@ -21,7 +21,7 @@ const ColorPicker = ({ selectedColor, onChange }) => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 text-sm text-purple-600 bg-gradient-to-br
+        className="flex items-center gap-1 text-sm text-purple-600 bg-linear-to-br
                    from-purple-50 to-purple-100 ring-purple-300 hover:ring
                    transition-all px-3 py-2 rounded-lg"
       >
@@ -37,7 +37,7 @@ const ColorPicker = ({ selectedColor, onChange }) => {
           {colors.map((color) => (
             <div
               key={color.value}
-              onClick={() => onChange(color.value)}
+              onClick={() => { onChange(color.value); setIsOpen(false); }}
               className="relative cursor-pointer group flex flex-col items-center"
             >
               <div
