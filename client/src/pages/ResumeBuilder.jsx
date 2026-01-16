@@ -107,7 +107,7 @@ const ResumeBuilder = () => {
                 <div className='flex items-center'>
                   {
                     activeSectionIndex !== 0 && (
-                      <button onClick={() => setActiveSectionIndex((prevIndex) => Math.min(prevIndex + 1, sections.length - 1))} className='flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50
+                      <button onClick={() => setActiveSectionIndex((prevIndex) => Math.max(prevIndex - 1, 0))} className='flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50
                      transition-all' disabled={activeSectionIndex === 0}>
 
                         <ChevronLeft className='size-4' />Previous
@@ -116,7 +116,7 @@ const ResumeBuilder = () => {
                     )
                   }
 
-                  <button onClick={() => setActiveSectionIndex((prevIndex) => Math.max(prevIndex - 1, 0))}
+                  <button onClick={() => setActiveSectionIndex((prevIndex) => Math.min(prevIndex + 1, sections.length - 1))}
                     className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50
                      transition-all ${activeSectionIndex === sections.length - 1 && 'opacity-50'}`}
                     disabled={activeSectionIndex === sections.length - 1}>
