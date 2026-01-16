@@ -5,6 +5,7 @@ import { dummyResumeData } from '../assets/assets';
 import { ArrowBigLeftIcon, Briefcase, ChevronLeft, ChevronRight, FileText, FolderIcon, GraduationCap, Sparkles, User } from 'lucide-react';
 import PersonalInfoForm from '../components/PersonalInfoForm';
 import ResumePreview from '../components/ResumePreview';
+import TemplateSelector from '../components/TemplateSelector';
 
 const ResumeBuilder = () => {
 
@@ -90,7 +91,13 @@ const ResumeBuilder = () => {
 
               <div className='flex justify-between items-center mb-6 border-b border-gray-300 py-1'>
 
-                <div></div>
+                <div className='flex justify-between items-center mb-6 border-b border-gray-300 py-1'>
+                  
+
+                <TemplateSelector selectedTemplate={resumeData.template} onChange={(template) =>
+                  setResumeData(prev => ({ ...prev, template }))} />
+
+                </div>
 
                 <div className='flex items-center'>
                   {
@@ -116,7 +123,8 @@ const ResumeBuilder = () => {
 
 
                 </div>
-
+               
+                       
               </div>
 
               {/* Form Content */}
