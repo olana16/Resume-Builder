@@ -54,8 +54,10 @@ const ResumeBuilder = () => {
 
 
   useEffect(() => {
-    loadExistingResume()
-  }, [])
+    if (resumeId) {
+      loadExistingResume(resumeId)
+    }
+  }, [resumeId])
 
 
 
@@ -138,13 +140,23 @@ const ResumeBuilder = () => {
           </div>
 
           {/* Right Panel - Resume Preview */}
-          <div className='lg:col-span-7 max-lg:mt-6'>
-            {/* buttons */}
 
-          </div>
-          {/* Resume preview */}
+          <div className='lg:col-span-7 max-lg:mt-6'>
+
+            <div>
+
+                          {/* buttons */}
+
+
+            </div>
+
+    {/* Resume preview */}
           <ResumePreview data={resumeData} template={resumeData.template}
            accentColor={resumeData.accent_color} />
+
+
+          </div>
+      
 
 
         </div>
