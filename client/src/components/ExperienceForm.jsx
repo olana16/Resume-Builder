@@ -83,7 +83,7 @@ const ExperienceForm = ({ data = [], onChange }) => {
                                         }
                                         onChange(updated)
                                     }}
-                                    className='rounded border-gray-300 text-blue-600 focus:ring-blue-500'
+                                    className='rounded border-gray-300 accent-blue-600 focus:ring-blue-500'
                                 />
                                 <span className='text-sm text-gray-700'>Currently Working Here.</span>
                             </label>
@@ -93,12 +93,18 @@ const ExperienceForm = ({ data = [], onChange }) => {
                                 <div className='flex items-center justify-between'>
 
                                     <label className='text-sm font-medium text-gray-700'> Job Description</label>
-                                    <button className='flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50'>
+                                    <button className='flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 focus:ring-blue-500 rounded hover:bg-purple-200 transition-colors disabled:opacity-50'>
                                         <Sparkles className='w-3 h-3' />Enhance with AI
                                     </button>
                                 </div>
 
-                                <textarea value={experience.description || ""} onChange={(e) => updateExperience(index, "description", e.target.value)} rows={4} className='w-full text-sm px-3 py-2 rounded-lg resize-none' placeholder='Describe your key responsibility and achievements...' />
+                                <textarea
+                                    value={experience.description || ""}
+                                    onChange={(e) => updateExperience(index, "description", e.target.value)}
+                                    rows={4}
+                                    className='w-full text-sm px-3 py-2 rounded-lg resize-none border border-gray-300 outline-none focus:ring focus:ring-blue-500 focus:border-blue-500'
+                                    placeholder='Describe your key responsibility and achievements...'
+                                />
 
                             </div>
 
