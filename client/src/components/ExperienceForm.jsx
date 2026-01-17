@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react'
+import { Briefcase, Plus, Trash2 } from 'lucide-react'
 import React from 'react'
 
 const ExperienceForm = ({data, onChange}) => {
@@ -30,7 +30,7 @@ const updateEXperience =(index)=>{
 
     const updated = [...data]
     updated[index] ={...updated[index], [field]: value}
-    onChange(update)
+    onChange(updated)
 
 }
 
@@ -46,7 +46,7 @@ const updateEXperience =(index)=>{
                 text-lg font-semibold text-gray-900'>Professional Experience</h3>
                 <p className='text-sm text-gray-500'>Add your job experience</p>
             </div>
-           <button className='flex items-center gap-2 px-3 py-1 text-sm bg-purple-100
+           <button onClick={addExperience} className='flex items-center gap-2 px-3 py-1 text-sm bg-purple-100
             text-purple-700 rounded hover:bg-purple-200 transition-colors'>
 
             <Plus className='size-4'/>
@@ -65,6 +65,31 @@ const updateEXperience =(index)=>{
 
               
         </div>
+
+
+        {data.length === 0 ? (
+            <div className='text-center py-8 text-gray-500'>
+                <Briefcase className='w-12 h-12 mx-auto mb-3 text-gray-300'/>
+                <p>No work experience add yet</p>
+                <p className='text-sm'>Click "AddExperince" to get started</p>
+
+            </div>
+        ) : (
+
+            <div className='space-y-4'>
+                {data.map((experience, index)=>{
+                    <div key={index} className='p-4 border border-gray-200 rounded-lg space-y-3'>
+                        <div className='flex justify-between items-start'>
+                            <h4>Experience #{index + 1}</h4>
+                            <button onClick={()=>removeEXperience(index)} className='text-red-500 hover:text-red-700 transition-colors'>
+                                <Trash2 className='size-4'/>
+                            </button>
+                        </div>
+                    </div>
+                })}
+
+            </div>
+        )}
       
     </div>
   )
