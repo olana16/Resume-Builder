@@ -63,17 +63,28 @@ const ExperienceForm = ({ data = [], onChange }) => {
 
                                 <input value={experience.position || ""} onChange={(e) => updateExperience(index, "position", e.target.value)} className='px-3 py-2 text-sm rounded-lg' type="text" placeholder='Job Title' />
 
-                                <input value={experience.start_date || ""} onChange={(e) => updateExperience(index, "start_date", e.target.value)} className='px-3 py-2 text-sm rounded-lg' type="month" />
+                                <input value={experience.start_date || ""} onChange={(e) => updateExperience(index, "start_date", e.target.value)} className='px-3 py-2 text-sm rounded-lg' type="date" />
 
-                                <input value={experience.end_date || ""} onChange={(e) => updateExperience(index, "end_date", e.target.value)} className='px-3 py-2 text-sm rounded-lg disabled:bg-gray-100' type="month" disabled={experience.is_current} />
+                                <input typeof='' value={experience.end_date || ""} onChange={(e) => updateExperience(index, "end_date", e.target.value)} className='px-3 py-2 text-sm rounded-lg disabled:bg-gray-100' type="date" disabled={experience.is_current} />
 
                             </div>
 
                             <label className='flex items-center gap-2'>
-                                <input type="checkbox" checked={experience.is_current || false} onChange={(e) => {
-                                    updateExperience(index, "is_current", e.target.checked)
-                                    if (e.target.checked) updateExperience(index, "end_date", "")
-                                }} className='rounded border-gray-300 text-blue-600 focus:ring-blue-500' />
+                                <input
+                                    type="checkbox"
+                                    checked={experience.is_current || false}
+                                    onChange={(e) => {
+                                        const checked = e.target.checked
+                                        const updated = [...data]
+                                        updated[index] = {
+                                            ...updated[index],
+                                            is_current: checked,
+                                            end_date: checked ? "" : updated[index].end_date
+                                        }
+                                        onChange(updated)
+                                    }}
+                                    className='rounded border-gray-300 text-blue-600 focus:ring-blue-500'
+                                />
                                 <span className='text-sm text-gray-700'>Currently Working Here.</span>
                             </label>
 
