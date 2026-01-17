@@ -4,11 +4,9 @@ const ProjectForm = ({data, onChange}) => {
 
      const addProject = () => {
         const newProject = {
-            institution: "",
-            degree: "",
-            field: "",
-            graduation_date: "",
-            gpa: "",
+            name: "",
+            type: "",
+            description: "",
         }
         onChange([...data, newProject])
     }
