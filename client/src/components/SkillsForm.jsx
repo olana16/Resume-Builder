@@ -14,7 +14,14 @@ const SkillsForm = ({data,Onchange}) => {
     const removeSkill = (indexToRemove) => {
         Onchange(data.filter((_, index) => index !== indexToRemove));
     }
-    
+
+    const handleKeyPress = (e)=>{
+        if(e.key === 'Enter'){
+            e.preventDefault();
+            addSkill();
+        }
+    }
+
   return (
     <div>
       
