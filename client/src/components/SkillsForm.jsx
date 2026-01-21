@@ -10,6 +10,11 @@ const SkillsForm = ({data,Onchange}) => {
             setNewSkill("");
         }
     }
+
+    const removeSkill = (indexToRemove) => {
+        Onchange(data.filter((_, index) => index !== indexToRemove));
+    }
+    
   return (
     <div>
       
