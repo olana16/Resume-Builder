@@ -1,19 +1,19 @@
-import { Plus, Sparkles } from 'lucide-react';
+import { Plus, Sparkles, X } from 'lucide-react';
 import React from 'react'
 import { useState } from 'react';
-const SkillsForm = ({data,Onchange}) => {
+const SkillsForm = ({data, onChange}) => {
     const [newSkill, setNewSkill] = useState("");
 
     const addSkill = () => {
         // Add logic to handle adding a new skill
         if(newSkill.trim() && !data.includes(newSkill.trim())) {
-            Onchange([...data, newSkill.trim()]);
+            onChange([...data, newSkill.trim()]);
             setNewSkill("");
         }
     }
 
     const removeSkill = (indexToRemove) => {
-        Onchange(data.filter((_, index) => index !== indexToRemove));
+        onChange(data.filter((_, index) => index !== indexToRemove));
     }
 
     const handleKeyPress = (e)=>{
