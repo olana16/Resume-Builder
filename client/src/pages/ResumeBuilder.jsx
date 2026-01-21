@@ -197,6 +197,11 @@ const ResumeBuilder = () => {
 
               </div>
 
+              <button className='bg-gradient-to-br from-green-100 to-green-200 ring-green-300 text-green-600
+                ring hover:ring-green-400 transition-all rounded-md py-2 px-6 mt-6 text-sm'>
+                Save Resume
+              </button>
+
 
 
             </div>
