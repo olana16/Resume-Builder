@@ -12,7 +12,7 @@ const protect = async (req, res, next) => {
         req.userId = decoded.userId;
         next();
     } catch (error) {
-        return  res.status(401).json({ message: "Token is not valid" });
+        return  res.status(401).json({ message: "Unauthorized access" });
     }
 }
-export default protect;
+export default protect; 
