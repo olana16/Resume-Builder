@@ -114,7 +114,7 @@ export const updateResume = async(req, res) =>{
                  fileName: 'resume.png',
                  folder: 'user-resumes',
                  transformation:{
-                    pre:'w-300, h-300, fo-face, z-0.75,'+ (removeBackground ? 'e-bgremove,' : '');
+                    pre:'w-300, h-300, fo-face, z-0.75,'+ (removeBackground ? 'e-bgremove,' : '')
                  }
 
                  });
