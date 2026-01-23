@@ -1,5 +1,5 @@
 import express from "express";
-import { getUserById, loginUser, registerUser } from "../controllers/userControllers.js";
+import { getUserById, getUserResumes, loginUser, registerUser } from "../controllers/userControllers.js";
 import protect from "../middlewares/authMiddleware.js";
 
 
