@@ -42,3 +42,36 @@ export const enhanceProfessionalSummary = async(req, res) =>{
 //controllers for generate job description
 //POST /api/ai/enhance-job-desc
 
+
+export const enhanceJobDescription = async(req, res) =>{
+
+    try{
+
+        const{userContent} = req.body;
+
+        if(!userContent){
+            return res.status(400).json({ message: "Content is required for enhancement" });
+        }
+
+    const response = await ai.chat.completions.create({
+            model: process.env.OPENAI_MODEL,
+            messages: [
+                {
+                    role: "system",
+                    content: " You are an expert in job description writing.Your task is to enhance the job description. The description should 1 - 2 sentences also highlight key responsibilities and achievements. Make compelling and ATS-friendly. and also return text no options or anything else "
+                },
+                {
+                    role: "user",
+                    content: userContent
+                }
+            ]
+        })
+
+        const enhancedContent = response.choices[0].message.content;
+
+        return res.status(200).json({enhancedContent});
+
+    }catch (error) {
+        return res.status(400).json({ message: "Failed to enhance job description", error: error.message });
+    }
+}
