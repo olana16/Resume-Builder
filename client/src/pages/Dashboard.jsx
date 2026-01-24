@@ -93,7 +93,7 @@ const Dashboard = () => {
         } catch (error) {
             toast.error(error?.response?.data?.message || error.message);
         }
-      //  setEditResumeId('');
+     
     }
 
     const deleteResume = async (resumeId) => { 
