@@ -1,11 +1,11 @@
-import { FilePenLineIcon, PencilIcon, PlugIcon, PlusIcon, TrashIcon, UploadCloud, UploadCloudIcon, XIcon } from 'lucide-react';
+import { FilePenLineIcon, LoaderCircleIcon, PencilIcon, PlugIcon, PlusIcon, TrashIcon, UploadCloud, UploadCloudIcon, XIcon } from 'lucide-react';
 import React, { useState, useEffect, use } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { dummyResumeData } from '../assets/assets'
 import { useSelector } from 'react-redux';
 import api from '../configs/api';
 import toast from 'react-hot-toast';
-import { pdfToText } from 'react-pdftotext'
+import pdfToText from 'react-pdftotext'
 
 
 const Dashboard = () => {
@@ -21,7 +21,7 @@ const Dashboard = () => {
     const [title, setTitle] = useState('');
     const [resume, setResume] = useState(null);
     const [editResumeId, setEditResumeId] = useState('');
-    const [isLOading, setIsLoading] = useState(false);
+    const [isLoading, setisLoading] = useState(false);
     const navigate = useNavigate();
 
 
@@ -60,7 +60,7 @@ const Dashboard = () => {
 
     const uploadResume = async (event) => {
         event.preventDefault();
-        setIsLoading(true);
+        setisLoading(true);
         try {
             const resumeText = await pdfToText(resume);
             const {data} = await api.post('/api/ai/upload-resume', {title, content: resumeText}, {headers: {Authorization: token}});
@@ -72,23 +72,48 @@ const Dashboard = () => {
             toast.error(error?.response?.data?.message || error.message);
             
         }
-        setIsLoading(false);
+        setisLoading(false);
         
     }
 
 
     const editTitle = async (event) => {
-        event.preventDefault();
+
+        try {
+
+                    event.preventDefault();
+                    const {data} = await api.put(`/api/resumes/update`, {resumeId: editResumeId, resumeData: {title}}, 
+                        {headers: {Authorization: token}});
+                        setAllResumes(allResumes.map(resume => resume._id === editResumeId ? {...resume, title} : resume));
+                        setTitle('');
+                        setEditResumeId('');
+                        toast.success(data.message);
+
+            
+        } catch (error) {
+            toast.error(error?.response?.data?.message || error.message);
+        }
       //  setEditResumeId('');
     }
 
     const deleteResume = async (resumeId) => { 
 
-        const confirm = window.confirm("Are you sure you want to delete this resume?");
+        try{
+
+              const confirm = window.confirm("Are you sure you want to delete this resume?");
 
         if(confirm){
-            setAllResumes(prev=> prev.filter(resume=>resume._id !== resumeId));
+            const {data} = await api.delete(`/api/resumes/delete/${resumeId}`, {headers: {Authorization: token}});
+            setAllResumes(allResumes.filter(resume => resume._id !== resumeId));
+            toast.success(data.message);
         }
+
+
+        }catch(error){
+            toast.error(error?.response?.data?.message || error.message);
+        }
+
+      
 
      }
 
@@ -206,7 +231,8 @@ const Dashboard = () => {
                                         onChange={(e) => setResume(e.target.files[0])} />
                                 </div>
                                 <button className='w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>
-                                    Upload Resume
+                                  {isLoading && <LoaderCircleIcon className='animate-spin size-4 text-white'/>}
+                                  {isLoading ? 'Uploading...' : 'Upload Resume'}
                                 </button>
 
                                 <XIcon className='absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer
