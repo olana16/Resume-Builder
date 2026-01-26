@@ -42,7 +42,7 @@ const ResumeBuilder = () => {
 
     try {
 
-      const {data } = await api.get('/api/resumes/get' + resumeId, {headers:{Authorization:token}})
+      const {data } = await api.get('/api/resumes/get/' + resumeId, {headers:{Authorization:token}})
         if(data.resume){
           setResumeData(data.resume)
           document.title = data.resume.title 
@@ -136,7 +136,7 @@ try {
 
       setResumeData(data.resume);
 
-      toast.success(data.message);
+      toast.success('Saved successfully');
 
     } catch (error) {
 
