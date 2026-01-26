@@ -10,7 +10,7 @@ import pdfToText from 'react-pdftotext'
 
 const Dashboard = () => {
 
-    const {user, token} = useSelector((state) => state.auth);
+    const { user, token } = useSelector((state) => state.auth);
 
     const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"]
 
@@ -32,19 +32,19 @@ const Dashboard = () => {
     const loadAllResumes = async () => {
 
         try {
-            const {data} = await api.get('/api/users/resumes', {headers: {Authorization: token}});
+            const { data } = await api.get('/api/users/resumes', { headers: { Authorization: token } });
             setAllResumes(data.resumes);
         } catch (error) {
             toast.error(error?.response?.data?.message || error.message);
-            
+
         }
     }
 
     const createResume = async (event) => {
-        
+
         try {
             event.preventDefault();
-            const {data}=await api.post('/api/resumes/create', {title}, {headers: {Authorization: token}});
+            const { data } = await api.post('/api/resumes/create', { title }, { headers: { Authorization: token } });
             setAllResumes([...allResumes, data.resume]);
             setTitle('');
             setShowCreateResume(false);
@@ -53,7 +53,7 @@ const Dashboard = () => {
 
         } catch (error) {
             toast.error(error?.response?.data?.message || error.message);
-            
+
         }
 
     }
@@ -63,17 +63,17 @@ const Dashboard = () => {
         setisLoading(true);
         try {
             const resumeText = await pdfToText(resume);
-            const {data} = await api.post('/api/ai/upload-resume', {title, content: resumeText}, {headers: {Authorization: token}});
+            const { data } = await api.post('/api/ai/upload-resume', { title, content: resumeText }, { headers: { Authorization: token } });
             setTitle('');
             setResume(null);
             setShowUploadResume(false);
             navigate(`/app/builder/${data.resume._id}`)
         } catch (error) {
             toast.error(error?.response?.data?.message || error.message);
-            
+
         }
         setisLoading(false);
-        
+
     }
 
 
@@ -81,41 +81,41 @@ const Dashboard = () => {
 
         try {
 
-                    event.preventDefault();
-                    const {data} = await api.put(`/api/resumes/update`, {resumeId: editResumeId, resumeData: {title}}, 
-                        {headers: {Authorization: token}});
-                        setAllResumes(allResumes.map(resume => resume._id === editResumeId ? {...resume, title} : resume));
-                        setTitle('');
-                        setEditResumeId('');
-                        toast.success(data.message);
+            event.preventDefault();
+            const { data } = await api.put(`/api/resumes/update`, { resumeId: editResumeId, resumeData: { title } },
+                { headers: { Authorization: token } });
+            setAllResumes(allResumes.map(resume => resume._id === editResumeId ? { ...resume, title } : resume));
+            setTitle('');
+            setEditResumeId('');
+            toast.success(data.message);
 
-            
+
         } catch (error) {
             toast.error(error?.response?.data?.message || error.message);
         }
-     
+
     }
 
-    const deleteResume = async (resumeId) => { 
+    const deleteResume = async (resumeId) => {
 
-        try{
+        try {
 
-              const confirm = window.confirm("Are you sure you want to delete this resume?");
+            const confirm = window.confirm("Are you sure you want to delete this resume?");
 
-        if(confirm){
-            const {data} = await api.delete(`/api/resumes/delete/${resumeId}`, {headers: {Authorization: token}});
-            setAllResumes(allResumes.filter(resume => resume._id !== resumeId));
-            toast.success(data.message);
-        }
+            if (confirm) {
+                const { data } = await api.delete(`/api/resumes/delete/${resumeId}`, { headers: { Authorization: token } });
+                setAllResumes(allResumes.filter(resume => resume._id !== resumeId));
+                toast.success(data.message);
+            }
 
 
-        }catch(error){
+        } catch (error) {
             toast.error(error?.response?.data?.message || error.message);
         }
 
-      
 
-     }
+
+    }
 
     useEffect(() => {
         loadAllResumes()
@@ -151,7 +151,7 @@ const Dashboard = () => {
                         const baseColors = colors[index % colors.length];
                         return (
 
-                            <button onClick={()=>navigate(`/app/builder/${resume._id}`)} key={index} className='relative w-full sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 border group hover:shadow-lg
+                            <button onClick={() => navigate(`/app/builder/${resume._id}`)} key={index} className='relative w-full sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 border group hover:shadow-lg
                  transition-all duration-300 cursor-pointer' style={{
                                     background: `linear-gradient(135deg, 
                  ${baseColors}10, ${baseColors}10)`, borderColor: baseColors + '40'
@@ -163,12 +163,12 @@ const Dashboard = () => {
                                 <p className='absolute bottom-1 text-[11px] text-slate-400
                                  group-hover:text-slate-500 transition-all duration-300
                                   px-2 text-center' style={{ color: baseColors + '90' }}>Update on {new Date().toLocaleDateString()}</p>
-                                                                <div onClick={e => e.stopPropagation()} className='absolute top-1 right-1 group-hover:flex items-center hidden'>
-                                                                        <TrashIcon onClick={()=>deleteResume(resume._id)} className='size-7 p-1 hover:bg-white/50 rounded text-slate-700 
+                                <div onClick={e => e.stopPropagation()} className='absolute top-1 right-1 group-hover:flex items-center hidden'>
+                                    <TrashIcon onClick={() => deleteResume(resume._id)} className='size-7 p-1 hover:bg-white/50 rounded text-slate-700 
                                                                             transition-colors' />
-                                                                        <PencilIcon onClick={(e) => { e.stopPropagation(); setEditResumeId(resume._id); setTitle(resume.title); }} className='size-7 p-1 hover:bg-white/50 rounded text-slate-700 
+                                    <PencilIcon onClick={(e) => { e.stopPropagation(); setEditResumeId(resume._id); setTitle(resume.title); }} className='size-7 p-1 hover:bg-white/50 rounded text-slate-700 
                                                                             transition-colors'/>
-                                                                </div>
+                                </div>
                             </button>
                         )
 
@@ -230,9 +230,9 @@ const Dashboard = () => {
                                     <input type="file" name="" id="resume-input" accept='.pdf' hidden
                                         onChange={(e) => setResume(e.target.files[0])} />
                                 </div>
-                                <button className='w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>
-                                  {isLoading && <LoaderCircleIcon className='animate-spin size-4 text-white'/>}
-                                  {isLoading ? 'Uploading...' : 'Upload Resume'}
+                                <button disabled={isLoading} className='w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>
+                                    {isLoading && <LoaderCircleIcon className='animate-spin size-4 text-white' />}
+                                    {isLoading ? 'Uploading...' : 'Upload Resume'}
                                 </button>
 
                                 <XIcon className='absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer
@@ -243,10 +243,10 @@ const Dashboard = () => {
                     )
                 }
 
-           
 
 
-             
+
+
                 {
                     editResumeId && (
                         <form onSubmit={editTitle} onClick={() => setEditResumeId('')} className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center
