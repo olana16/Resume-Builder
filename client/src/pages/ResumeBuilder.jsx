@@ -138,10 +138,9 @@ try {
 
       toast.success(data.message);
 
-
     } catch (error) {
 
-      toast.error( error?.response?.data?.message || error.message);
+      console.error(error.message);
       
     }
 
@@ -278,9 +277,9 @@ try {
 
               </div>
 
-              <button onClick={toast.promise(saveResume, {loading: 'Saving...'})} className='bg-linear-to-br from-green-100 to-green-200 ring-green-300 text-green-600
+              <button onClick={()=>{toast.promise(saveResume, {loading: 'Saving...'})}} className='bg-linear-to-br from-green-100 to-green-200 ring-green-300 text-green-600
                 ring hover:ring-green-400 transition-all rounded-md py-2 px-6 mt-6 text-sm'>
-                Save Resume
+                Save Changes
               </button>
 
 
