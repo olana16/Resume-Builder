@@ -14,6 +14,7 @@ import ProjectForm from '../components/ProjectForm';
 import SkillsForm from '../components/SkillsForm';
 import { useSelector } from 'react-redux';
 import api from '../configs/api';
+import toast from 'react-hot-toast';
 
 const ResumeBuilder = () => {
 
@@ -76,8 +77,24 @@ const ResumeBuilder = () => {
 
 
   const changeResumeVisibility = async()=>{
+try {
+  
 
-       const formData = new FormData()
+       const formData = new FormData();
+        formData.append('resumeId', resumeData._id);
+        formData.append('resumeData', JSON.stringify({ public: !resumeData.public}));
+
+        const {data} = await api.put('/api/resumes/update', formData, {headers:{Authorization:token}});
+        setResumeData({...resumeData, public:!resumeData.public})
+        toast.success(data.message);
+
+
+
+
+} catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+  
+}
 
   }
 
@@ -96,6 +113,39 @@ const ResumeBuilder = () => {
   const downloadResume = () => {
     window.print();
   }
+
+
+
+   const saveResume = async()=>{
+
+    try {
+      
+      let  updateResumeData = structuredClone(resumeData);
+
+      if(typeof resumeData.personal_info.image === 'object'){
+        delete updateResumeData.personal_info.image;
+      }
+
+      const formData = new FormData();
+      formData.append('resumeId', resumeId);
+      formData.append('resumeData', JSON.stringify(updateResumeData));
+      removeBackground && formData.append('removeBackground', 'yes');
+      typeof resumeData.personal_info.image === 'object' && formData.append('image', resumeData.personal_info.image);
+
+      const {data} = await api.put('/api/resumes/update', formData, {headers:{Authorization:token}});
+
+      setResumeData(data.resume);
+
+      toast.success(data.message);
+
+
+    } catch (error) {
+
+      toast.error( error?.response?.data?.message || error.message);
+      
+    }
+
+   }
 
 
 
