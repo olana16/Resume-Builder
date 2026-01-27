@@ -62,13 +62,33 @@ const Dashboard = () => {
         event.preventDefault();
         setisLoading(true);
         try {
-            const resumeText = await pdfToText(resume);
-            const { data } = await api.post('/api/ai/upload-resume', { title, content: resumeText }, { headers: { Authorization: token } });
+            if (!resume) {
+                toast.error('Please select a PDF file to upload');
+                setisLoading(false);
+                return;
+            }
+
+            let resumeText = '';
+            try {
+                resumeText = await pdfToText(resume);
+            } catch (err) {
+                console.error('pdfToText error:', err);
+            }
+
+            if (!resumeText || !resumeText.trim()) {
+                console.error('Extracted text empty. File:', resume);
+                toast.error('Could not extract text from the selected PDF. Try a different file.');
+                setisLoading(false);
+                return;
+            }
+
+            const { data } = await api.post('/api/ai/upload-resume', { title, resumeText }, { headers: { Authorization: token } });
             setTitle('');
             setResume(null);
             setShowUploadResume(false);
-            navigate(`/app/builder/${data.resume._id}`)
+            navigate(`/app/builder/${data.resumeId}`)
         } catch (error) {
+            console.error('uploadResume error:', error);
             toast.error(error?.response?.data?.message || error.message);
 
         }
