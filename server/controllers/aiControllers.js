@@ -22,7 +22,7 @@ export const enhanceProfessionalSummary = async(req, res) =>{
             messages: [
                 {
                     role: "system",
-                    content: " You are an expert in resume writing.Your task is to enhance the professional summary of resume. The summary should 1 - 2 sentences also highlight key skills, experience and career objective . Make compelling and ATS-friendly. and also return text no options or anything else "
+                    content: "You are an expert in resume writing. Enhance the professional summary using a first-person voice (use 'I' when referring to the candidate). Return 1-2 sentences that highlight key skills, experience, and career objective, make it compelling and ATS-friendly. Preserve appropriate tense: use present tense for current roles and past tense for past roles. Return only the enhanced summary text with no extra commentary or options."
                 },
                 {
                     role: "user",
@@ -61,7 +61,7 @@ export const enhanceJobDescription = async(req, res) =>{
             messages: [
                 {
                     role: "system",
-                    content: " You are an expert in job description writing.Your task is to enhance the job description. The description should 1 - 2 sentences also highlight key responsibilities and achievements. Make compelling and ATS-friendly. and also return text no options or anything else "
+                    content: "You are an expert in job description writing. Enhance the job description using a first-person voice (use 'I' when describing actions and achievements). Return 1-2 sentences that highlight key responsibilities and measurable achievements, make it compelling and ATS-friendly. Use present tense for current roles and past tense for previous roles. Return only the enhanced description text with no extra commentary or options."
                 },
                 {
                     role: "user",
