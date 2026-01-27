@@ -101,13 +101,46 @@ try {
 
   const handleShare = () =>{
     // Logic to handle sharing the resume
-    const frontendUrl = window.location.href.split('/app')[0];
-    const resumeUrl =frontendUrl + '/view' + resumeId;
-    if(navigator.share){
-      navigator.share({url:resumeUrl, text:"My Resume",})
-    }else{
-      alert("Share not supported on this browser. Copy the link: " + resumeUrl);
-    }
+    (async () => {
+      const id = resumeData._id || resumeId;
+      const resumeUrl = `${window.location.origin}/view/${id}`;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({ url: resumeUrl, text: 'My Resume' });
+        } catch (err) {
+          // user cancelled or share failed — ignore silently
+        }
+        return;
+      }
+
+      // Fallback: copy to clipboard if available
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(resumeUrl);
+          toast.success('Resume link copied to clipboard');
+          return;
+        } catch (err) {
+          // fall through to execCommand fallback
+        }
+      }
+
+      // Older fallback: create a temporary input and copy
+      const tempInput = document.createElement('input');
+      tempInput.style.position = 'absolute';
+      tempInput.style.left = '-9999px';
+      tempInput.value = resumeUrl;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        toast.success('Resume link copied to clipboard');
+      } catch (err) {
+        // As last resort, prompt the user to copy manually
+        window.prompt('Copy this link:', resumeUrl);
+      }
+      document.body.removeChild(tempInput);
+    })();
   }
 
   const downloadResume = () => {
