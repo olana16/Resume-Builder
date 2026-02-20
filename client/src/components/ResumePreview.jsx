@@ -36,13 +36,12 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
      margin: 0;
  }
  @media print {
-     /* constrain page size and hide other UI */
+     /* constrain page width and hide other UI, allow multi-page flow */
      html, body {
          width: 8.5in;
-         height: 11in;
          margin: 0;
          padding: 0;
-         overflow: hidden;
+         background: white;
      }
      body * {
          visibility: hidden;
@@ -50,27 +49,29 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
      #resume-preview, #resume-preview * {
          visibility: visible;
      }
-     /* Force the preview to match a single printed page and scale slightly if needed */
+     /* Place the preview at the very top of the printed page so it doesn't shift to a later page */
      #resume-preview {
          position: absolute;
          left: 0;
          top: 0;
          width: 8.5in;
-         height: 11in;
          box-shadow: none !important;
          border: none !important;
          margin: 0;
          padding: 0.4in; /* small padding inside page */
-         overflow: hidden;
+         overflow: visible;
          -webkit-print-color-adjust: exact;
-         transform-origin: top left;
-         /* slight scale to prevent overflow across browsers; adjust if content still breaks */
-         transform: scale(0.98);
+         transform: none;
      }
-     /* Avoid page breaks inside major sections */
+     /* Prefer avoiding breaks inside small sections but allow natural page breaks for long content */
      #resume-preview section, #resume-preview .section {
-         break-inside: avoid;
+         break-inside: avoid-column;
          page-break-inside: avoid;
+     }
+     /* Ensure long sections can break across pages when necessary */
+     #resume-preview .allow-break {
+         break-inside: auto;
+         page-break-inside: auto;
      }
  }
 `}</style>
